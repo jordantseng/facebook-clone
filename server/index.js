@@ -16,7 +16,7 @@ app.use('/api/posts', postsRoute);
 app.use('/api/user', userRoute);
 app.use('/api', express.static(__dirname + '/images'));
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   console.log(path.join(__dirname, '../client/dist/social-media'));
 
   app.use(express.static(path.join(__dirname, '/client/dist/social-media')));
