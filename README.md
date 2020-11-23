@@ -1,7 +1,9 @@
 # social-media
-MEAN stack
+
+Social Media clone using MEAN stack
 
 ---
+
 
 ## TODO
 
