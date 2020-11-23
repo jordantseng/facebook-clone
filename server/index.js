@@ -12,23 +12,17 @@ const app = express();
 
 app.use(express.json());
 
+__dirname = path.resolve();
 app.use('/api/posts', postsRoute);
 app.use('/api/user', userRoute);
-app.use('/api', express.static(__dirname + '/images'));
+app.use('/api', express.static(__dirname + '/server/images'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist/social-media')));
+  app.use(express.static(path.join(__dirname, '/client/dist/social-media')));
 
   app.get('*', (req, res) => {
     res.sendFile(
-      path.resolve(
-        __dirname,
-        '../',
-        'client',
-        'dist',
-        'social-media',
-        'index.html'
-      )
+      path.resolve(__dirname, 'client', 'dist', 'social-media', 'index.html')
     );
   });
 } else {
