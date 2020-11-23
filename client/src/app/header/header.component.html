@@ -1,0 +1,48 @@
+<mat-toolbar color="primary">
+  <span>
+    <a [routerLink]="isLoggedIn ? ['/posts'] : ['/']">Facebook clone</a>
+  </span>
+  <span class="space"></span>
+  <ul>
+    <ng-container *ngIf="isLoggedIn">
+      <li>
+        <a
+          mat-button
+          [routerLink]="['./', 'profile']"
+          routerLinkActive="mat-accent"
+        >
+          <mat-icon>account_circle</mat-icon>
+        </a>
+      </li>
+      <li>
+        <a
+          mat-button
+          [routerLink]="['./', 'posts']"
+          routerLinkActive="mat-accent"
+        >
+          <mat-icon>home</mat-icon>
+        </a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="!isLoggedIn">
+      <li>
+        <a
+          mat-button
+          [routerLink]="['./']"
+          routerLinkActive="mat-accent"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Login
+        </a>
+      </li>
+      <li>
+        <a mat-button [routerLink]="['./signup']" routerLinkActive="mat-accent">
+          Signup
+        </a>
+      </li>
+    </ng-container>
+    <li *ngIf="isLoggedIn">
+      <a mat-button (click)="onSignout()">Signout</a>
+    </li>
+  </ul>
+</mat-toolbar>

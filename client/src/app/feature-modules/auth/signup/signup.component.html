@@ -1,0 +1,6 @@
+<app-spinner *ngIf="loading"></app-spinner>
+<app-auth-form
+  [errorMessage]="errorMessage"
+  formTitle="Signup"
+  (formSubmiited)="signup($event)"
+></app-auth-form>

@@ -1,0 +1,57 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="onFormSubmit()" #formDirective="ngForm">
+    <mat-card-title>{{ formTitle }}</mat-card-title>
+
+    <ng-container *ngIf="formTitle === 'Signup'">
+      <mat-form-field>
+        <input matInput formControlName="name" placeholder="Name" />
+      </mat-form-field>
+
+      <mat-error *ngIf="form.get('name').errors && form.get('name').touched">
+        <ng-container *ngIf="form.get('name').getError('required')">
+          Name is required
+        </ng-container>
+      </mat-error>
+    </ng-container>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        formControlName="email"
+        placeholder="Email"
+      />
+    </mat-form-field>
+
+    <mat-error *ngIf="form.get('email').errors && form.get('email').touched">
+      <ng-container *ngIf="form.get('email').getError('required')">
+        email is required
+      </ng-container>
+    </mat-error>
+
+    <mat-form-field>
+      <input
+        type="password"
+        matInput
+        formControlName="password"
+        placeholder="Password"
+      />
+    </mat-form-field>
+
+    <mat-error
+      *ngIf="form.get('password').errors && form.get('password').touched"
+    >
+      <ng-container *ngIf="form.get('password').getError('required')">
+        password is required
+      </ng-container>
+    </mat-error>
+
+    <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+
+    <div class="card-actions">
+      <button color="primary" mat-raised-button type="submit">
+        {{ formTitle }}
+      </button>
+    </div>
+  </form>
+</mat-card>

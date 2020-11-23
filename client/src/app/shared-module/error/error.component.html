@@ -1,0 +1,4 @@
+<mat-card *ngIf="errorMessage">
+  <p>Error occurred: {{ errorMessage }}</p>
+  <button align="end" mat-raised-button (click)="onCloseError()">Close</button>
+</mat-card>

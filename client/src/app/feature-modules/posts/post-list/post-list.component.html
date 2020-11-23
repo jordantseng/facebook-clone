@@ -1,0 +1,47 @@
+<div *ngFor="let post of posts" class="container">
+  <mat-card>
+    <mat-card-header>
+      <img mat-card-avatar [src]="post.user.avatar" />
+      <mat-card-title>{{ post.user.name }}</mat-card-title>
+      <mat-card-subtitle>{{ post.createdAt | date }}</mat-card-subtitle>
+
+      <button
+        *ngIf="loggedinUser._id === post.user._id"
+        mat-icon-button
+        [matMenuTriggerFor]="more_options"
+      >
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+      <mat-menu #more_options="matMenu">
+        <a
+          mat-menu-item
+          [routerLink]="['./', post._id, 'edit']"
+          routerLinkActive="router-link-active"
+        >
+          Edit
+        </a>
+        <button mat-menu-item color="warn" (click)="onDeleteClick(post._id)">
+          Delete
+        </button>
+      </mat-menu>
+    </mat-card-header>
+    <mat-card-content>
+      <h3>{{ post.title }}</h3>
+      <p>
+        {{ post.content }}
+      </p>
+    </mat-card-content>
+    <ng-container class="image">
+      <img
+        *ngIf="post.image"
+        [src]="post.image"
+        [alt]="post.title"
+        mat-card-image
+      />
+    </ng-container>
+    <mat-card-actions align="end">
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

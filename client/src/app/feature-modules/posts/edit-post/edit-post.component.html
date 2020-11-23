@@ -1,0 +1,8 @@
+<app-spinner *ngIf="loading"></app-spinner>
+<app-error [errorMessage]="errorMessage"></app-error>
+<app-post-form
+  *ngIf="!loading"
+  [loggedInUser]="loggedInUser"
+  [initialFormValue]="initialFormValue"
+  (formSubmitted)="onEditPost($event)"
+></app-post-form>

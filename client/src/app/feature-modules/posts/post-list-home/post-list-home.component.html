@@ -1,0 +1,21 @@
+<app-spinner *ngIf="loading"></app-spinner>
+<ng-container *ngIf="loggedinUser && !loading">
+  <app-error *ngIf="errorMessage" [errorMessage]="errorMessage"></app-error>
+  <app-create-post></app-create-post>
+  <app-post-list
+    [posts]="posts"
+    [loggedinUser]="loggedinUser"
+    (deleteClicked)="onDeletePost($event)"
+  ></app-post-list>
+</ng-container>
+<mat-paginator
+  [length]="page.totalData"
+  [pageSize]="page.pageSize"
+  [pageSizeOptions]="[1, 3, 5]"
+  (page)="onChangePage($event)"
+>
+</mat-paginator>
+
+<p class="mat-body-1 info-text" *ngIf="posts.length <= 0 && !loading">
+  No posts added yet.
+</p>

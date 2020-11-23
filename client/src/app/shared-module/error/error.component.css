@@ -1,0 +1,15 @@
+mat-card {
+  display: flex;
+  margin: 0 0 1rem 0;
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+p {
+  margin: auto 0 auto 0 !important;
+}
+
+button {
+  margin-left: auto;
+  color: #721c24;
+}

@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Edit Profile</h2>
+<form [formGroup]="form" (ngSubmit)="onEditFormClick()">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="form.get('name').getError('required')">
+        Name is required.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button (click)="close()" type="button" class="mat-raised-button">
+      Close
+    </button>
+    <button type="submit" mat-raised-button color="primary">Edit</button>
+  </mat-dialog-actions>
+</form>

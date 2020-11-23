@@ -1,0 +1,53 @@
+<app-spinner *ngIf="loading"></app-spinner>
+
+<div *ngIf="loggedinUser && !loading" class="container">
+  <div class="profile">
+    <mat-card>
+      <div class="avatar-container">
+        <img
+          class="avatar"
+          mat-card-avatar
+          [src]="loggedinUser.avatar"
+          (click)="avatar.click()"
+        />
+        <input #avatar hidden type="file" (change)="onChangeAvatar($event)" />
+      </div>
+      <div class="info">
+        <mat-card-title>{{ loggedinUser.name }}</mat-card-title>
+        <mat-card-subtitle>{{ loggedinUser.email }}</mat-card-subtitle>
+      </div>
+      <div class="card-actions">
+        <button
+          id="edit-details"
+          mat-stroked-button
+          onclick="this.blur()"
+          (click)="onOpenDetailsModal()"
+        >
+          <!-- Hack: onclick="this.blur()" to get rid of .cdk-focused .cdk-program-focused-->
+          Edit Details
+        </button>
+        <button
+          id="change-password"
+          mat-stroked-button
+          onclick="this.blur()"
+          (click)="onOpenPasswordModal()"
+        >
+          Change Password
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="profile-right">
+    <app-create-post></app-create-post>
+    <app-post-list
+      [posts]="posts"
+      [loggedinUser]="loggedinUser"
+      (deleteClicked)="onDeletePost($event)"
+    ></app-post-list>
+
+    <p *ngIf="posts.length <= 0 && !loading" class="mat-body-1 info-text">
+      No posts added yet.
+    </p>
+  </div>
+</div>
