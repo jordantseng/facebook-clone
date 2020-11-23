@@ -17,13 +17,18 @@ app.use('/api/user', userRoute);
 app.use('/api', express.static(__dirname + '/images'));
 
 if (process.env.NODE_ENV === 'production') {
-  console.log(path.join(__dirname, '../client/dist/social-media'));
-
   app.use(express.static(path.join(__dirname, '../client/dist/social-media')));
 
   app.get('*', (req, res) => {
     res.sendFile(
-      path.resolve(__dirname, 'client', 'dist', 'social-media', 'index.html')
+      path.resolve(
+        __dirname,
+        '../',
+        'client',
+        'dist',
+        'social-media',
+        'index.html'
+      )
     );
   });
 } else {
@@ -32,8 +37,8 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-  console.log(`Server running on ${process.env.NODE_ENV} mode on port ${port}`);
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`);
 });
