@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 import { User } from 'src/app/interfaces/auth.model';
 import { Post } from 'src/app/interfaces/post.model';
@@ -20,14 +20,15 @@ import { AuthService } from 'src/app/feature-modules/auth/auth.service';
   templateUrl: './profile-home.component.html',
   styleUrls: ['./profile-home.component.css'],
 })
-export class ProfileHomeComponent implements OnInit {
+export class ProfileHomeComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
+
   loggedinUser: User;
   loading: boolean;
   userSub: Subscription;
+  postSub: Subscription;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private postsService: PostsService,
     private profileService: ProfileService,
@@ -36,30 +37,24 @@ export class ProfileHomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParamMap
-      .pipe(
-        switchMap(() => {
-          this.loading = true;
-          return this.postsService.getMyPosts();
-        })
-      )
-      .subscribe((posts) => {
-        this.posts = posts.data;
-
-        this.loading = false;
-      });
-
     this.userSub = this.authService.user$.subscribe((user) => {
       this.loggedinUser = user;
+    });
+
+    this.postSub = this.postsService.posts$.subscribe((posts) => {
+      this.loading = false;
+      this.posts = posts;
+    });
+
+    this.route.paramMap.subscribe(() => {
+      this.loading = true;
+      this.postsService.fetchMyPosts();
     });
   }
 
   onDeletePost(id: string) {
     this.loading = true;
-    this.postsService.deleteMyPost(id).subscribe(() => {
-      this.loading = false;
-      this.reloadPage();
-    });
+    this.postsService.deleteMyPost(id);
   }
 
   onChangeAvatar(event: Event) {
@@ -112,18 +107,12 @@ export class ProfileHomeComponent implements OnInit {
       });
   }
 
-  OnDestroy() {
-    this.userSub.unsubscribe();
+  onClickLike({ postId }) {
+    this.postsService.likePost(postId, this.loggedinUser._id);
   }
 
-  private reloadPage() {
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: {
-        ts: Date.now().toString(),
-      },
-      queryParamsHandling: 'merge',
-      skipLocationChange: true,
-    });
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 }

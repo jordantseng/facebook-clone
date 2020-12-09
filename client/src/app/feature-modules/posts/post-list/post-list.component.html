@@ -21,22 +21,21 @@
         </button>
       </app-util-buttons>
     </mat-card-header>
+
     <mat-card-content>
       <h3>{{ post.title }}</h3>
       <p>
         {{ post.content }}
       </p>
+      <div *ngIf="post.image" class="image-container">
+        <img [src]="post.image" [alt]="post.title" mat-card-image />
+      </div>
     </mat-card-content>
-    <ng-container class="image">
-      <img
-        *ngIf="post.image"
-        [src]="post.image"
-        [alt]="post.title"
-        mat-card-image
-      />
-    </ng-container>
 
     <mat-card-actions align="end" style="margin-bottom: 0">
+      <div style="margin-right: auto">
+        <button mat-button>{{ renderLikes(post) }}</button>
+      </div>
       <div>
         <button mat-button (click)="onCommentButtonClick(post._id)">
           {{ renderCommentButton(post.comments) }}
@@ -45,55 +44,14 @@
           <mat-icon color="warn">{{ renderLikeButton(post.likes) }}</mat-icon>
           LIKE
         </button>
-        {{ post.likes | json }}
       </div>
     </mat-card-actions>
 
-    <ng-container *ngIf="commentSection === post._id">
-      <mat-divider></mat-divider>
-      <form
-        class="example-form"
-        [formGroup]="form"
-        (keydown.enter)="onSubmitComment(post._id)"
-      >
-        <mat-form-field style="width: 100%; margin-top: 1rem">
-          <mat-label>Leave a comment</mat-label>
-          <textarea matInput formControlName="comment"></textarea>
-        </mat-form-field>
-      </form>
-
-      <div
-        *ngFor="let comment of post.comments"
-        style="padding: 1rem 0; display: flex"
-      >
-        <img
-          style="display: block; margin-right: 1rem"
-          mat-card-avatar
-          [src]="comment.avatar"
-        />
-
-        <div style="flex: 3">
-          <strong>{{ comment.name }}</strong>
-          <div>
-            {{ comment.content }}
-          </div>
-        </div>
-
-        <div>
-          <app-util-buttons
-            *ngIf="loggedinUser._id === comment.user"
-            [post]="post"
-          >
-            <button
-              mat-menu-item
-              color="warn"
-              (click)="onDeleteComment(post._id, comment._id)"
-            >
-              Delete
-            </button>
-          </app-util-buttons>
-        </div>
-      </div>
-    </ng-container>
+    <app-comments-section
+      *ngIf="commentSection === post._id"
+      [comments]="post.comments"
+      [loggedinUser]="loggedinUser"
+      [post]="post"
+    ></app-comments-section>
   </mat-card>
 </div>

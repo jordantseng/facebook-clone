@@ -26,7 +26,7 @@ const getPosts = async (req, res) => {
       .populate('user', 'name avatar')
       .populate('comments user');
 
-    console.log(posts);
+    
 
     res.send({
       data: posts,
@@ -38,7 +38,7 @@ const getPosts = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    
     res.status(500).send();
   }
 };
@@ -125,7 +125,7 @@ const createPostComment = async (req, res) => {
 
     res.send(post.comments[post.comments.length - 1]);
   } catch (error) {
-    console.log(error);
+    
     res.status(500).send();
   }
 };
@@ -164,7 +164,7 @@ const deletePostComment = async (req, res) => {
 const likePost = async (req, res) => {
   const id = req.params.id;
 
-  console.log(req.body);
+  
 
   try {
     const post = await Post.findById(id);
@@ -191,7 +191,7 @@ const likePost = async (req, res) => {
 
     res.send(post.likes[lastIndex]);
   } catch (error) {
-    console.log(error);
+    
     res.status(500).send();
   }
 };

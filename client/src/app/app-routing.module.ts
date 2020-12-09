@@ -7,10 +7,10 @@ import { LoginComponent } from './feature-modules/auth/login/login.component';
 import { SignupComponent } from './feature-modules/auth/signup/signup.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   {
-    path: 'posts',
+    path: '',
     canLoad: [AuthGuard],
     loadChildren: () =>
       import('./feature-modules/posts/posts.module').then((m) => m.PostsModule),

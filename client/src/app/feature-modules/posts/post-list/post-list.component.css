@@ -5,3 +5,13 @@
 mat-card-header button {
   margin-left: auto;
 }
+
+.image-container {
+  padding: 10px;
+  height: 300px;
+}
+
+.image-container img {
+  object-fit: cover;
+  height: 100%;
+}

@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <span>
-    <a [routerLink]="isLoggedIn ? ['/posts'] : ['/']">Social Media</a>
+    <a [routerLink]="isLoggedIn ? ['/'] : ['/login']">Social Media</a>
   </span>
   <span class="space"></span>
   <ul>
@@ -17,8 +17,9 @@
       <li>
         <a
           mat-button
-          [routerLink]="['./', 'posts']"
+          [routerLink]="['./']"
           routerLinkActive="mat-accent"
+          [routerLinkActiveOptions]="{ exact: true }"
         >
           <mat-icon>home</mat-icon>
         </a>

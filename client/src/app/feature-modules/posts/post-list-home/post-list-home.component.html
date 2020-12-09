@@ -7,13 +7,12 @@
     [loggedinUser]="loggedinUser"
     (deleteClicked)="onDeletePost($event)"
     (commentSubmitted)="onCommentSubmit($event)"
-    (commentDeleted)="onDeleteComment($event)"
     (postLiked)="onClickLike($event)"
   ></app-post-list>
 </ng-container>
 <mat-paginator
-  [length]="page.totalData"
-  [pageSize]="page.pageSize"
+  [length]="page?.totalData"
+  [pageSize]="page?.pageSize"
   [pageSizeOptions]="[1, 3, 5]"
   (page)="onChangePage($event)"
 >

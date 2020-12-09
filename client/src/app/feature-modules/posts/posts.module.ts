@@ -10,6 +10,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { PostListHomeComponent } from './post-list-home/post-list-home.component';
+import { CommentsSectionComponent } from './comments-section/comments-section.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PostListHomeComponent } from './post-list-home/post-list-home.component
     PostListComponent,
     EditPostComponent,
     PostListHomeComponent,
+    CommentsSectionComponent,
   ],
   imports: [
     CommonModule,

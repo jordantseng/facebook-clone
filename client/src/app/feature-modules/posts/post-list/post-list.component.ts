@@ -12,11 +12,8 @@ export class PostListComponent implements OnInit {
   @Input() posts: Post[];
   @Input() loggedinUser: User;
   @Output() deleteClicked = new EventEmitter<string>();
+
   // TODO: type
-  @Output() commentSubmitted = new EventEmitter<{
-    commentValue: string;
-    postId: string;
-  }>();
   @Output() commentDeleted = new EventEmitter<{
     postId: string;
     commentId: string;
@@ -24,12 +21,27 @@ export class PostListComponent implements OnInit {
   @Output() postLiked = new EventEmitter<{ postId: string }>();
 
   commentSection: string;
-  form: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
-    this.form = this.fb.group({ comment: [''] });
+  ngOnInit(): void {}
+
+  renderLikes(post) {
+    const alreadyLiked = post.likes.find(
+      (like) => like.user === this.loggedinUser._id
+    );
+
+    if (alreadyLiked) {
+      if (post.likes.length === 1) {
+        return `You like this post`;
+      }
+      return `You and other ${post.likes.length - 1} people like this post`;
+    } else {
+      if (post.likes.length === 0) {
+        return null;
+      }
+      return `${post.likes.length} people like this post`;
+    }
   }
 
   renderLikeButton(likes) {
@@ -62,15 +74,6 @@ export class PostListComponent implements OnInit {
 
   onDeleteClick(id: string) {
     this.deleteClicked.emit(id);
-  }
-
-  onSubmitComment(postId: string) {
-    this.commentSubmitted.emit({
-      commentValue: this.form.value.comment,
-      postId,
-    });
-
-    this.form.get('comment').setValue('');
   }
 
   onDeleteComment(postId: string, commentId: string) {

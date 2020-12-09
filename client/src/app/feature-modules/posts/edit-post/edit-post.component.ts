@@ -51,7 +51,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
           this.postId = pm.get('id');
 
           this.loading = true;
-          return this.postsService.getPost(this.postId);
+          return this.postsService.fetchPost(this.postId);
         })
       )
       .subscribe((postValue) => {

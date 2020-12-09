@@ -34,7 +34,7 @@ export class AuthService {
           user.userToken.token
         );
 
-        this.router.navigate(['./', 'posts'], {
+        this.router.navigate(['../'], {
           relativeTo: this.route,
         });
       },
@@ -55,7 +55,7 @@ export class AuthService {
           user.userToken.token
         );
 
-        this.router.navigate(['../', 'posts'], {
+        this.router.navigate(['../'], {
           relativeTo: this.route,
         });
       },
@@ -76,7 +76,7 @@ export class AuthService {
 
     this.isLoggedIn$.next(false);
 
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
 
     clearTimeout(this.tokenTimer);
   }

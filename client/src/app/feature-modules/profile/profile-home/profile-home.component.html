@@ -44,6 +44,7 @@
       [posts]="posts"
       [loggedinUser]="loggedinUser"
       (deleteClicked)="onDeletePost($event)"
+      (postLiked)="onClickLike($event)"
     ></app-post-list>
 
     <p *ngIf="posts.length <= 0 && !loading" class="mat-body-1 info-text">
