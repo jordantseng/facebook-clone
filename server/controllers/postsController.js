@@ -1,10 +1,10 @@
-const Post = require("../models/Post");
+const Post = require('../models/Post');
 
 const getPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res.status(404).send({ message: "Post not found" });
+      return res.status(404).send({ message: 'Post not found' });
     }
 
     res.send(post);
@@ -23,7 +23,10 @@ const getPosts = async (req, res) => {
       .limit(pageSize)
       .skip(pageSize * (currentPage - 1))
       .sort({ createdAt: -1 })
-      .populate("user", "name avatar");
+      .populate('user', 'name avatar')
+      .populate('comments user');
+
+    console.log(posts);
 
     res.send({
       data: posts,
@@ -35,6 +38,7 @@ const getPosts = async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send();
   }
 };
@@ -72,7 +76,7 @@ const updatePost = async (req, res) => {
     const result = await Post.updateOne({ _id: req.params.id }, payload);
 
     if (result.nModified < 1) {
-      return res.status(401).send({ message: "Not allow to modify the post" });
+      return res.status(401).send({ message: 'Not allow to modify the post' });
     }
 
     res.send(result);
@@ -86,11 +90,108 @@ const deletePost = async (req, res) => {
     const post = await Post.findByIdAndDelete(req.params.id);
 
     if (!post) {
-      return res.status(404).send({ message: "Post not found" });
+      return res.status(404).send({ message: 'Post not found' });
     }
 
     res.send(post);
   } catch (error) {
+    res.status(500).send();
+  }
+};
+
+// @desc create post comment
+// @route /api/post/:id/comments
+// @access private
+const createPostComment = async (req, res) => {
+  const postId = req.params.id;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).send('Post not found');
+    }
+
+    const comment = {
+      user: req.user._id,
+      name: req.user.name,
+      avatar: req.user.avatar,
+      content: req.body.comment,
+    };
+
+    post.comments.push(comment);
+
+    await post.save();
+
+    res.send(post.comments[post.comments.length - 1]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
+  }
+};
+
+// @desc delete post comment
+// @route /api/post/:postId/comments/:commentId
+// @access private
+const deletePostComment = async (req, res) => {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).send('Post not found');
+    }
+
+    const filteredComments = post.comments.filter(
+      (comment) => String(comment._id) !== commentId
+    );
+
+    post.comments = filteredComments;
+
+    await post.save();
+
+    res.send(null);
+  } catch (error) {
+    res.status(500).send();
+  }
+};
+
+// @desc like post comment
+// @route /api/post/:id/like
+// @access private
+const likePost = async (req, res) => {
+  const id = req.params.id;
+
+  console.log(req.body);
+
+  try {
+    const post = await Post.findById(id);
+
+    if (!post) {
+      return res.status(404).send('Post not found');
+    }
+
+    const alreadyExist = post.likes.find((like) => {
+      return String(like.user) === req.body.userId;
+    });
+
+    if (alreadyExist) {
+      post.likes = post.likes.filter(
+        (like) => String(like.user) !== req.body.userId
+      );
+    } else {
+      post.likes.push({ user: req.body.userId });
+    }
+
+    await post.save();
+
+    const lastIndex = post.likes.length - 1;
+
+    res.send(post.likes[lastIndex]);
+  } catch (error) {
+    console.log(error);
     res.status(500).send();
   }
 };
@@ -101,4 +202,7 @@ module.exports = {
   getPost,
   updatePost,
   deletePost,
+  likePost,
+  createPostComment,
+  deletePostComment,
 };

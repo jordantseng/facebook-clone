@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Post } from 'src/app/interfaces/post.model';
+import { Post, Comment } from 'src/app/interfaces/post.model';
 import { Page } from '../../interfaces/page.model';
 
 @Injectable({
@@ -43,6 +43,21 @@ export class PostsService {
     return this.http.get<Post>(`${this.url}/${id}`);
   }
 
+  //
+
+  // fetchPosts(page: number, pageSize: number) {
+  //   this.http
+  //     .get<{ data: Post[]; page: Page }>(
+  //       `${this.url}?page=${page}&pageSize=${pageSize}`
+  //     )
+  //     .subscribe((res) => {
+  //       this.posts = res.data;
+  //       this.page = res.page;
+  //     });
+  // }
+
+  //
+
   getPosts(page: number, pageSize: number) {
     return this.http.get<{ data: Post[]; page: Page }>(
       `${this.url}?page=${page}&pageSize=${pageSize}`
@@ -60,5 +75,25 @@ export class PostsService {
 
   deletePost(postId: string) {
     return this.http.delete<Post>(`${this.url}/${postId}`);
+  }
+
+  // TODO: type
+  likePost(postId: string, userId: string) {
+    return this.http.patch<{ _id: string; user: string } | undefined>(
+      `${this.url}/${postId}/like`,
+      { userId }
+    );
+  }
+
+  createPostComment(commentValue: string, postId: string) {
+    return this.http.post<Comment>(`${this.url}/${postId}/comments`, {
+      comment: commentValue,
+    });
+  }
+
+  deletePostComment(postId: string, commentId: string) {
+    return this.http.delete<null>(
+      `${this.url}/${postId}/comments/${commentId}`
+    );
   }
 }

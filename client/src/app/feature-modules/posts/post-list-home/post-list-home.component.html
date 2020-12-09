@@ -6,6 +6,9 @@
     [posts]="posts"
     [loggedinUser]="loggedinUser"
     (deleteClicked)="onDeletePost($event)"
+    (commentSubmitted)="onCommentSubmit($event)"
+    (commentDeleted)="onDeleteComment($event)"
+    (postLiked)="onClickLike($event)"
   ></app-post-list>
 </ng-container>
 <mat-paginator

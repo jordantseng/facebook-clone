@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require('../models/User');
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -7,7 +7,7 @@ const signup = async (req, res) => {
     const exsistedUser = await User.findOne({ email });
 
     if (exsistedUser) {
-      return res.status(400).send({ message: "User already exsisted" });
+      return res.status(400).send({ message: 'User already exsisted' });
     }
 
     const user = new User({ name, email, password });
@@ -31,6 +31,7 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findByCredentials(email, password);
 
@@ -54,7 +55,7 @@ const updateMyAvatar = async (req, res) => {
     const user = await User.findOne({ _id: req.user.id });
 
     if (!user) {
-      res.status(404).send("user not found");
+      res.status(404).send('user not found');
     }
 
     user.avatar = `api/${req.file.filename}`;
@@ -69,10 +70,10 @@ const updateMyAvatar = async (req, res) => {
 
 const getMyProfile = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.user.id }).select("-password");
+    const user = await User.findOne({ _id: req.user.id }).select('-password');
 
     if (!user) {
-      res.status(404).send("user not found");
+      res.status(404).send('user not found');
     }
 
     res.send(user);
@@ -89,7 +90,7 @@ const updateMyProfile = async (req, res) => {
     await user.save();
 
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).send({ message: 'User not found' });
     }
 
     res.send(user);
@@ -113,16 +114,16 @@ const updateMyPassword = async (req, res) => {
     const { currentPassword, newPassword, confirmedNewPassword } = req.body;
 
     if (newPassword !== confirmedNewPassword) {
-      return res.status(400).send({ message: "passwords are not match" });
+      return res.status(400).send({ message: 'passwords are not match' });
     }
 
     const user = await User.findByCredentials(req.user.email, currentPassword);
-    
+
     user.password = newPassword;
 
     await user.save();
 
-    res.send({ message: "Password updates successfully" });
+    res.send({ message: 'Password updates successfully' });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
