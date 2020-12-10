@@ -21,8 +21,6 @@ Server
 - express
 - mongodb + mongoose
 
----
-
 ## TODO
 
 - Heruko Continuous Deployment
