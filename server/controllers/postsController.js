@@ -167,16 +167,16 @@ const likePost = async (req, res) => {
       return res.status(404).send('Post not found');
     }
 
-    const alreadyExist = post.likes.find((like) => {
-      return String(like.user) === req.body.userId;
+    const alreadyExist = post.likes.find((userId) => {
+      return String(userId) === req.body.userId;
     });
 
     if (alreadyExist) {
       post.likes = post.likes.filter(
-        (like) => String(like.user) !== req.body.userId
+        (userId) => String(userId) !== req.body.userId
       );
     } else {
-      post.likes.push({ user: req.body.userId });
+      post.likes.push(req.body.userId);
     }
 
     await post.save();
@@ -191,7 +191,23 @@ const likePost = async (req, res) => {
 
 // @desc get post likes
 // @route /api/posts/:id/likes
-// @access private 
+// @access private
+const getLikes = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const { likes } = await Post.findById(id).populate('likes').select('likes');
+
+    // remove the password
+    likesWithoutPassword = likes.map((user) => {
+      return { _id: user._id, name: user.name, avatar: user.avatar };
+    });
+
+    res.send(likesWithoutPassword);
+  } catch (error) {
+    res.statsu(500).send();
+  }
+};
 
 module.exports = {
   getPosts,
@@ -200,6 +216,7 @@ module.exports = {
   updatePost,
   deletePost,
   likePost,
+  getLikes,
   createPostComment,
   deletePostComment,
 };

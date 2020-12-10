@@ -24,8 +24,7 @@ const postSchema = Schema(
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     comments: { type: [commentSchema] },
     likes: {
-      // type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-      type: [likeSchema],
+      type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
       required: true,
       default: [],
     },

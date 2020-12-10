@@ -9,7 +9,7 @@ const {
   deletePost,
   createPostComment,
   deletePostComment,
-
+  getLikes,
   likePost,
 } = require('../controllers/postsController');
 const {
@@ -25,7 +25,7 @@ router.route('/:postId/comments/:commentId').delete(auth, deletePostComment);
 
 router.route('/:id/comments').post(auth, createPostComment);
 
-router.route('/:id/like').patch(auth, likePost);
+router.route('/:id/like').get(auth, getLikes).patch(auth, likePost);
 
 router
   .route('/:id/me')
