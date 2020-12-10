@@ -27,9 +27,11 @@ export class PostsService {
   }
 
   fetchMyPosts() {
-    this.http.get<any>(`${this.url}/me`).subscribe((res) => {
-      this.posts$.next(res.data);
-    });
+    this.http
+      .get<{ data: Post[] }>(`${this.url}/me`)
+      .subscribe(({ data: posts }) => {
+        this.posts$.next(posts);
+      });
   }
 
   updateMyPost(postId: string, post: Post) {
@@ -53,6 +55,7 @@ export class PostsService {
   deleteMyPost(id: string) {
     // optimistic update
     const prevPosts = this.posts$.getValue();
+
     this.posts$.next(this.posts$.getValue().filter((post) => post._id !== id));
 
     this.http.delete<Post>(`${this.url}/${id}/me`).subscribe(
@@ -91,6 +94,12 @@ export class PostsService {
       });
   }
 
+  getLikes(postId) {
+    return this.http.get<{ _id: string; name: string; avatar: string }[]>(
+      `${this.url}/${postId}/like`
+    );
+  }
+
   likePost(postId: string, userId: string) {
     // optimistic update
     const posts = [...this.getPosts()];
@@ -99,34 +108,27 @@ export class PostsService {
 
     const prevLikes = [...posts[index].likes];
 
-    const alreadyLiked = posts[index].likes.find(
-      (like) => like.user === userId
-    );
+    const alreadyLiked = posts[index].likes.find((id) => id === userId);
 
     if (alreadyLiked) {
-      posts[index].likes = posts[index].likes.filter(
-        (like) => like.user !== userId
-      );
+      posts[index].likes = posts[index].likes.filter((id) => id !== userId);
     } else {
-      posts[index].likes.push({ user: userId });
+      posts[index].likes.push(userId);
     }
 
     this.posts$.next(posts);
 
     this.http
-      .patch<{ _id: string; user: string } | undefined>(
-        `${this.url}/${postId}/like`,
-        { userId }
-      )
+      .patch<string | undefined>(`${this.url}/${postId}/like`, { userId })
       .subscribe(
         (res) => {
-          const likeIndex = posts[index].likes.findIndex(
-            (like) => like.user === userId
-          );
-
-          posts[index].likes[likeIndex] = res;
-
-          this.posts$.next(posts);
+          if (!res) {
+            const likeIndex = posts[index].likes.findIndex(
+              (id) => id === userId
+            );
+            posts[index].likes.splice(likeIndex, 1);
+            this.posts$.next(posts);
+          }
         },
         (error) => {
           posts[index].likes = prevLikes;

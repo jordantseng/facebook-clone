@@ -9,6 +9,7 @@ import { PostFormComponent } from './post-form/post-form.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { ErrorComponent } from './error/error.component';
 import { UtilButtonsComponent } from './util-buttons/util-buttons.component';
+import { InputComponent } from './input/input.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { UtilButtonsComponent } from './util-buttons/util-buttons.component';
     SpinnerComponent,
     ErrorComponent,
     UtilButtonsComponent,
+    InputComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { UtilButtonsComponent } from './util-buttons/util-buttons.component';
     ErrorComponent,
     SpinnerComponent,
     UtilButtonsComponent,
+    InputComponent,
   ],
 })
 export class SharedModule {}

@@ -5,31 +5,13 @@
   </mat-card-header>
 
   <form [formGroup]="form" (ngSubmit)="onFormSubmit()" #formDirective="ngForm">
-    <mat-form-field>
-      <input matInput formControlName="title" placeholder="Post Title" />
-    </mat-form-field>
+    <app-input [control]="form.get('title')" label="Post Title"></app-input>
 
-    <mat-error *ngIf="form.get('title').errors && form.get('title').touched">
-      <ng-container *ngIf="form.get('title').getError('required')">
-        title is required
-      </ng-container>
-    </mat-error>
-
-    <mat-form-field>
-      <textarea
-        matInput
-        formControlName="content"
-        placeholder="Post Content"
-      ></textarea>
-    </mat-form-field>
-
-    <mat-error
-      *ngIf="form.get('content').errors && form.get('content').touched"
-    >
-      <ng-container *ngIf="form.get('content').getError('required')">
-        content is required
-      </ng-container>
-    </mat-error>
+    <app-input
+      [control]="form.get('content')"
+      label="Post Content"
+      type="textarea"
+    ></app-input>
 
     <div class="image-preview" *ngIf="imagePreview">
       <img [src]="imagePreview" [alt]="form.value.title" />

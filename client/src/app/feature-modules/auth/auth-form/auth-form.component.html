@@ -2,49 +2,19 @@
   <form [formGroup]="form" (ngSubmit)="onFormSubmit()" #formDirective="ngForm">
     <mat-card-title>{{ formTitle }}</mat-card-title>
 
-    <ng-container *ngIf="formTitle === 'Signup'">
-      <mat-form-field>
-        <input matInput formControlName="name" placeholder="Name" />
-      </mat-form-field>
+    <app-input
+      *ngIf="formTitle === 'Signup'"
+      [control]="form.get('name')"
+      label="Name"
+    ></app-input>
 
-      <mat-error *ngIf="form.get('name').errors && form.get('name').touched">
-        <ng-container *ngIf="form.get('name').getError('required')">
-          Name is required
-        </ng-container>
-      </mat-error>
-    </ng-container>
+    <app-input [control]="form.get('email')" label="Email"></app-input>
 
-    <mat-form-field>
-      <input
-        matInput
-        type="email"
-        formControlName="email"
-        placeholder="Email"
-      />
-    </mat-form-field>
-
-    <mat-error *ngIf="form.get('email').errors && form.get('email').touched">
-      <ng-container *ngIf="form.get('email').getError('required')">
-        email is required
-      </ng-container>
-    </mat-error>
-
-    <mat-form-field>
-      <input
-        type="password"
-        matInput
-        formControlName="password"
-        placeholder="Password"
-      />
-    </mat-form-field>
-
-    <mat-error
-      *ngIf="form.get('password').errors && form.get('password').touched"
-    >
-      <ng-container *ngIf="form.get('password').getError('required')">
-        password is required
-      </ng-container>
-    </mat-error>
+    <app-input
+      [control]="form.get('password')"
+      type="password"
+      label="Password"
+    ></app-input>
 
     <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
 
@@ -53,5 +23,7 @@
         {{ formTitle }}
       </button>
     </div>
+
+    <pre></pre>
   </form>
 </mat-card>

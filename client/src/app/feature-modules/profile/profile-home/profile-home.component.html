@@ -1,6 +1,6 @@
-<app-spinner *ngIf="loading"></app-spinner>
+<app-spinner *ngIf="loadingProfile || loadingPost"></app-spinner>
 
-<div *ngIf="loggedinUser && !loading" class="container">
+<div *ngIf="loggedinUser && !loadingPost && !loadingProfile" class="container">
   <div class="profile">
     <mat-card>
       <div class="avatar-container">
@@ -47,7 +47,7 @@
       (postLiked)="onClickLike($event)"
     ></app-post-list>
 
-    <p *ngIf="posts.length <= 0 && !loading" class="mat-body-1 info-text">
+    <p *ngIf="posts.length <= 0 && !loadingPost" class="mat-body-1 info-text">
       No posts added yet.
     </p>
   </div>

@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { User } from 'src/app/interfaces/auth.model';
 import { Post } from 'src/app/interfaces/post.model';
@@ -14,6 +13,7 @@ import { ProfileService } from '../profile.service';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
 import { AuthService } from 'src/app/feature-modules/auth/auth.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-home',
@@ -22,14 +22,15 @@ import { AuthService } from 'src/app/feature-modules/auth/auth.service';
 })
 export class ProfileHomeComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
-
   loggedinUser: User;
-  loading: boolean;
+  loadingProfile: boolean;
+  loadingPost: boolean;
   userSub: Subscription;
   postSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private postsService: PostsService,
     private profileService: ProfileService,
     private authService: AuthService,
@@ -38,30 +39,36 @@ export class ProfileHomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSub = this.authService.user$.subscribe((user) => {
+      this.loadingProfile = false;
       this.loggedinUser = user;
     });
 
     this.postSub = this.postsService.posts$.subscribe((posts) => {
-      this.loading = false;
+      this.loadingPost = false;
       this.posts = posts;
     });
 
-    this.route.paramMap.subscribe(() => {
-      this.loading = true;
+    // re-render after created new post
+    this.route.queryParamMap.subscribe(() => {
+      this.loadingPost = true;
       this.postsService.fetchMyPosts();
     });
   }
 
   onDeletePost(id: string) {
-    this.loading = true;
     this.postsService.deleteMyPost(id);
   }
 
   onChangeAvatar(event: Event) {
-    this.loading = true;
+    this.loadingProfile = true;
     const avatar = (event.target as HTMLInputElement).files[0];
 
-    this.profileService.updateMyAvatar(avatar);
+    this.profileService.updateMyAvatar(avatar).subscribe((avatarPath) => {
+      this.authService.user$.next({
+        ...this.loggedinUser,
+        avatar: avatarPath,
+      });
+    });
   }
 
   onOpenDetailsModal() {
@@ -77,15 +84,22 @@ export class ProfileHomeComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(EditProfileComponent, dialogConfig);
 
+    // receive the data after closing modal
     dialogRef
       .afterClosed()
-      .pipe(filter((data) => data))
-      .subscribe((data) => {
-        this.loading = true;
-        this.profileService.updateMyProfile({
-          ...this.loggedinUser,
-          name: data.name,
-        });
+      .pipe(
+        filter((data) => !!data),
+        tap(() => (this.loadingProfile = true)),
+        switchMap((data) =>
+          this.profileService.updateMyProfile({
+            ...this.loggedinUser,
+            name: data.name,
+          })
+        )
+      )
+      .subscribe((user) => {
+        this.authService.user$.next(user);
+        this.reloadPage();
       });
   }
 
@@ -100,10 +114,13 @@ export class ProfileHomeComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(filter((data) => data))
-      .subscribe((data) => {
-        this.loading = true;
-        this.profileService.updateMyPassword(data);
+      .pipe(
+        filter((data) => !!data),
+        tap(() => (this.loadingProfile = true)),
+        switchMap((data) => this.profileService.updateMyPassword(data))
+      )
+      .subscribe(() => {
+        this.loadingProfile = false;
       });
   }
 
@@ -113,6 +130,15 @@ export class ProfileHomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
-    this.userSub.unsubscribe();
+    this.postSub.unsubscribe();
+  }
+
+  private reloadPage() {
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { ts: Date.now().toString() },
+      skipLocationChange: true,
+      queryParamsHandling: 'merge',
+    });
   }
 }

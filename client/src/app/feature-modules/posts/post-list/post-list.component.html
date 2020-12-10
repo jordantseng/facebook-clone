@@ -43,7 +43,7 @@
           {{ renderCommentButton(post.comments) }}
         </button>
         <button mat-button (click)="onLikeClick(post._id)">
-          <mat-icon color="warn">{{ renderLikeButton(post.likes,post) }}</mat-icon>
+          <mat-icon color="warn">{{ renderLikeButton(post.likes) }}</mat-icon>
           LIKE
         </button>
       </div>

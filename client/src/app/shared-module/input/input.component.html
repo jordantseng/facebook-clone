@@ -1,0 +1,25 @@
+<mat-form-field>
+  <input
+    *ngIf="type === 'text' || type === 'password'"
+    matInput
+    [placeholder]="label"
+    [formControl]="control"
+    [type]="type"
+  />
+  <textarea
+    *ngIf="type === 'textarea'"
+    matInput
+    [placeholder]="label"
+    [formControl]="control"
+  ></textarea>
+</mat-form-field>
+
+<mat-error *ngIf="control.errors && control.touched">
+  <ng-container *ngIf="control.getError('required')">
+    {{ label }} is required
+  </ng-container>
+  <ng-container *ngIf="control.getError('invalidPassword')">
+    Incorrect password
+  </ng-container>
+</mat-error>
+<mat-hint *ngIf="control.pending">Validating...</mat-hint>

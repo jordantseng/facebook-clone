@@ -5,7 +5,7 @@ export interface Post {
   image: string;
   user: { _id: string; name: string; avatar: string };
   comments: Comment[];
-  likes: { user: string; _id?: string }[];
+  likes: string[];
   createdAt: Date;
 }
 

@@ -15,8 +15,6 @@ export class PostListComponent implements OnInit {
   @Input() posts: Post[];
   @Input() loggedinUser: User;
   @Output() deleteClicked = new EventEmitter<string>();
-
-  // TODO: type
   @Output() commentDeleted = new EventEmitter<{
     postId: string;
     commentId: string;
@@ -25,15 +23,13 @@ export class PostListComponent implements OnInit {
 
   commentSection: string;
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) {}
 
-  ngOnInit(): void {
-    console.log(this.posts);
-  }
+  ngOnInit(): void {}
 
   renderLikes(post) {
     const alreadyLiked = post.likes.find(
-      (like) => like.user === this.loggedinUser._id
+      (userId) => userId === this.loggedinUser._id
     );
 
     if (alreadyLiked) {
@@ -49,8 +45,8 @@ export class PostListComponent implements OnInit {
     }
   }
 
-  renderLikeButton(likes, post) {
-    return likes.find((like) => like.user === this.loggedinUser._id)
+  renderLikeButton(likes) {
+    return likes.find((id) => id === this.loggedinUser._id)
       ? 'favorite'
       : 'favorite_border';
   }
@@ -66,12 +62,9 @@ export class PostListComponent implements OnInit {
   }
 
   openLikesDialog(post) {
-    console.log(post.likes);
-    // const dialogConfig = new MatDialogConfig();
-
-    // dialogConfig.data = {};
-
-    // this.dialog.open(LikesDialogComponent, dialogConfig);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = { postId: post._id };
+    this.dialog.open(LikesDialogComponent, dialogConfig);
   }
 
   onLikeClick(postId: string) {

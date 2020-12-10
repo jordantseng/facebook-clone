@@ -4,21 +4,21 @@
   [formGroup]="form"
   (keydown.enter)="onSubmitComment()"
 >
-  <mat-form-field style="width: 100%; margin-top: 1rem">
-    <mat-label>Leave a comment</mat-label>
-    <textarea matInput formControlName="comment"></textarea>
-  </mat-form-field>
+  <app-input
+    [control]="form.get('comment')"
+    label="Leave a comment"
+  ></app-input>
 </form>
 
 <div *ngFor="let comment of comments" style="padding: 1rem 0; display: flex">
   <img
     style="display: block; margin-right: 1rem"
     mat-card-avatar
-    [src]="comment.avatar"
+    [src]="loggedinUser.avatar"
   />
 
   <div style="flex: 3">
-    <strong>{{ comment.name }}</strong>
+    <strong>{{ loggedinUser.name }}</strong>
     <div>
       {{ comment.content }}
     </div>

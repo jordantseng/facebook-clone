@@ -1,9 +1,18 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
-<div mat-dialog-content>
-  My favorite animal is:
-  <ul>
-    <li><span>&#10003;</span> Panda</li>
-    <li><span>&#10003;</span> Unicorn</li>
-    <li><span>&#10003;</span> Lion</li>
-  </ul>
-</div>
+<app-spinner *ngIf="loading"></app-spinner>
+<ng-container *ngIf="!loading">
+  <div
+    *ngFor="let user of users"
+    mat-dialog-content
+    style="display: flex; margin-top: 0.5rem"
+  >
+    <img
+      style="display: block; margin-right: 1rem"
+      mat-card-avatar
+      [src]="user.avatar"
+    />
+
+    <div style="margin: auto 0">
+      <strong>{{ user.name }}</strong>
+    </div>
+  </div>
+</ng-container>

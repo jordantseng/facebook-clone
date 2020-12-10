@@ -25,7 +25,6 @@ export class PostFormComponent implements OnInit, OnChanges {
     content: '',
     image: '',
   };
-
   @Output() formSubmitted = new EventEmitter<Post>();
 
   form: FormGroup = this.fb.group({
@@ -33,7 +32,6 @@ export class PostFormComponent implements OnInit, OnChanges {
     content: [this.initialFormValue.content, [Validators.required]],
     image: [null, null, [mimeType]],
   });
-
   imagePreview: string;
 
   constructor(private fb: FormBuilder) {}

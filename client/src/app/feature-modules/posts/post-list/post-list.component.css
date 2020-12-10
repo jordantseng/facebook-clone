@@ -12,6 +12,6 @@ mat-card-header button {
 }
 
 .image-container img {
-  object-fit: cover;
+  object-fit: contain;
   height: 100%;
 }
