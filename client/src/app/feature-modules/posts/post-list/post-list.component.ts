@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+
 import { User } from 'src/app/interfaces/auth.model';
 import { Post } from 'src/app/interfaces/post.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { LikesDialogComponent } from '../likes-dialog/likes-dialog.component';
 
 @Component({
   selector: 'app-post-list',
@@ -22,9 +25,11 @@ export class PostListComponent implements OnInit {
 
   commentSection: string;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.posts);
+  }
 
   renderLikes(post) {
     const alreadyLiked = post.likes.find(
@@ -44,7 +49,7 @@ export class PostListComponent implements OnInit {
     }
   }
 
-  renderLikeButton(likes) {
+  renderLikeButton(likes, post) {
     return likes.find((like) => like.user === this.loggedinUser._id)
       ? 'favorite'
       : 'favorite_border';
@@ -58,6 +63,15 @@ export class PostListComponent implements OnInit {
     if (comments.length <= 0) {
       return 'COMMENT';
     }
+  }
+
+  openLikesDialog(post) {
+    console.log(post.likes);
+    // const dialogConfig = new MatDialogConfig();
+
+    // dialogConfig.data = {};
+
+    // this.dialog.open(LikesDialogComponent, dialogConfig);
   }
 
   onLikeClick(postId: string) {

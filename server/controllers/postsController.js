@@ -26,8 +26,6 @@ const getPosts = async (req, res) => {
       .populate('user', 'name avatar')
       .populate('comments user');
 
-    
-
     res.send({
       data: posts,
       page: {
@@ -38,7 +36,6 @@ const getPosts = async (req, res) => {
       },
     });
   } catch (error) {
-    
     res.status(500).send();
   }
 };
@@ -100,7 +97,7 @@ const deletePost = async (req, res) => {
 };
 
 // @desc create post comment
-// @route /api/post/:id/comments
+// @route /api/posts/:id/comments
 // @access private
 const createPostComment = async (req, res) => {
   const postId = req.params.id;
@@ -125,7 +122,6 @@ const createPostComment = async (req, res) => {
 
     res.send(post.comments[post.comments.length - 1]);
   } catch (error) {
-    
     res.status(500).send();
   }
 };
@@ -164,8 +160,6 @@ const deletePostComment = async (req, res) => {
 const likePost = async (req, res) => {
   const id = req.params.id;
 
-  
-
   try {
     const post = await Post.findById(id);
 
@@ -191,10 +185,13 @@ const likePost = async (req, res) => {
 
     res.send(post.likes[lastIndex]);
   } catch (error) {
-    
     res.status(500).send();
   }
 };
+
+// @desc get post likes
+// @route /api/posts/:id/likes
+// @access private 
 
 module.exports = {
   getPosts,

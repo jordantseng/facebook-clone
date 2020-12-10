@@ -11,6 +11,7 @@ import { PostListComponent } from './post-list/post-list.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { PostListHomeComponent } from './post-list-home/post-list-home.component';
 import { CommentsSectionComponent } from './comments-section/comments-section.component';
+import { LikesDialogComponent } from './likes-dialog/likes-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CommentsSectionComponent } from './comments-section/comments-section.co
     EditPostComponent,
     PostListHomeComponent,
     CommentsSectionComponent,
+    LikesDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -28,5 +30,6 @@ import { CommentsSectionComponent } from './comments-section/comments-section.co
     SharedModule,
   ],
   exports: [PostsRoutingModule, CreatePostComponent, PostListComponent],
+  entryComponents: [LikesDialogComponent],
 })
 export class PostsModule {}

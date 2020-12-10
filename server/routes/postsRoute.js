@@ -9,6 +9,7 @@ const {
   deletePost,
   createPostComment,
   deletePostComment,
+
   likePost,
 } = require('../controllers/postsController');
 const {
