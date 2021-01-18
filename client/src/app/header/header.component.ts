@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { Subscription } from 'rxjs';
+
 import { AuthService } from 'src/app/feature-modules/auth/auth.service';
 import { User } from 'src/app/interfaces/auth.model';
 

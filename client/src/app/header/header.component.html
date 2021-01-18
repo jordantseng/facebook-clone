@@ -1,7 +1,9 @@
 <mat-toolbar color="primary">
-  <span>
-    <a [routerLink]="isLoggedIn ? ['/'] : ['/login']">Social Media</a>
-  </span>
+  <div class="icon">
+    <div class="material-icons facebook">
+      <a [routerLink]="isLoggedIn ? ['/'] : ['/login']">facebook</a>
+    </div>
+  </div>
   <span class="space"></span>
   <ul>
     <ng-container *ngIf="isLoggedIn">
