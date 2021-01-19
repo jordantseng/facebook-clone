@@ -13,7 +13,7 @@ import { ProfileService } from '../profile.service';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
 import { AuthService } from 'src/app/feature-modules/auth/auth.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-home',
@@ -48,7 +48,7 @@ export class ProfileHomeComponent implements OnInit, OnDestroy {
       this.posts = posts;
     });
 
-    // re-render after created new post
+    // initiate posts and re-render after created new post
     this.route.queryParamMap.subscribe(() => {
       this.loadingPost = true;
       this.postsService.fetchMyPosts();
@@ -68,6 +68,7 @@ export class ProfileHomeComponent implements OnInit, OnDestroy {
         ...this.loggedinUser,
         avatar: avatarPath,
       });
+      this.reloadPage();
     });
   }
 
