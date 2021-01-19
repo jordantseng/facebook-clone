@@ -746,7 +746,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.postSub = this.postsService.posts$.subscribe(function (posts) {
             _this.loadingPost = false;
             _this.posts = posts;
-          }); // re-render after created new post
+          }); // initiate posts and re-render after created new post
 
           this.route.queryParamMap.subscribe(function () {
             _this.loadingPost = true;
@@ -770,6 +770,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this2.authService.user$.next(Object.assign(Object.assign({}, _this2.loggedinUser), {
               avatar: avatarPath
             }));
+
+            _this2.reloadPage();
           });
         }
       }, {

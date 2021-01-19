@@ -331,7 +331,7 @@ class ProfileHomeComponent {
             this.loadingPost = false;
             this.posts = posts;
         });
-        // re-render after created new post
+        // initiate posts and re-render after created new post
         this.route.queryParamMap.subscribe(() => {
             this.loadingPost = true;
             this.postsService.fetchMyPosts();
@@ -345,6 +345,7 @@ class ProfileHomeComponent {
         const avatar = event.target.files[0];
         this.profileService.updateMyAvatar(avatar).subscribe((avatarPath) => {
             this.authService.user$.next(Object.assign(Object.assign({}, this.loggedinUser), { avatar: avatarPath }));
+            this.reloadPage();
         });
     }
     onOpenDetailsModal() {
