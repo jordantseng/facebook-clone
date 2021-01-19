@@ -14,12 +14,13 @@ test password: 123456
 ## Screenshot:
 Home page
 
-<img width="1420" alt="Screen Shot 2020-12-10 at 5 16 04 PM" src="https://user-images.githubusercontent.com/53250186/101751649-76dff580-3b0b-11eb-9ad5-0a20c1be3d5e.png">
+<img width="1437" alt="Screen Shot 2021-01-19 at 10 58 21 AM" src="https://user-images.githubusercontent.com/53250186/104982272-457d1280-5a45-11eb-838f-ae9920fac411.png">
 
 ---
 
 Profile page
-<img width="1413" alt="Screen Shot 2020-12-10 at 5 16 17 PM" src="https://user-images.githubusercontent.com/53250186/101751653-78112280-3b0b-11eb-9bc3-3d688b8feaa0.png">
+
+<img width="1440" alt="Screen Shot 2021-01-19 at 10 58 01 AM" src="https://user-images.githubusercontent.com/53250186/104982276-49109980-5a45-11eb-8201-b0c9ca641b82.png">
 
 ## Technologies
 
