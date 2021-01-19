@@ -3253,7 +3253,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /Users/jordan/Desktop/material/project/social-media/client/src/main.ts */
+    /*! /Users/jordan/Desktop/material/project/facebook-clone/client/src/main.ts */
     "./src/main.ts");
     /***/
   }

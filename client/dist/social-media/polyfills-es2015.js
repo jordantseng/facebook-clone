@@ -3033,7 +3033,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/jordan/Desktop/material/project/social-media/client/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! /Users/jordan/Desktop/material/project/facebook-clone/client/src/polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })

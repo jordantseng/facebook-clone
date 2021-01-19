@@ -400,11 +400,11 @@
   /***/
   function _(module, exports, __webpack_require__) {
     __webpack_require__(
-    /*! /Users/jordan/Desktop/material/project/social-media/client/node_modules/@angular/material/prebuilt-themes/indigo-pink.css */
+    /*! /Users/jordan/Desktop/material/project/facebook-clone/client/node_modules/@angular/material/prebuilt-themes/indigo-pink.css */
     "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
 
     module.exports = __webpack_require__(
-    /*! /Users/jordan/Desktop/material/project/social-media/client/src/styles.css */
+    /*! /Users/jordan/Desktop/material/project/facebook-clone/client/src/styles.css */
     "./src/styles.css");
     /***/
   }
