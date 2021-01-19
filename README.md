@@ -1,6 +1,6 @@
 # Facebook clone
 Facebook clone using MEAN stack   
-demo: https://e-commerce-20201123.herokuapp.com/    
+demo: https://social-media-20201123.herokuapp.com/   
 test account: test@gmail.com   
 test password: 123456   
 
