@@ -54,7 +54,7 @@ Server
 
 ## Usage
 
-In the client and server directory, to install all the dependencies, you should respectively run:
+In the root and client directory, to install all the dependencies, you should respectively run:
 
 #### `npm install`
 
