@@ -32,7 +32,6 @@ Server
 - mongodb (mongoose)
 
 ## Features:
-- RWD
 - Login / signup
 - Auto login / logout in 1hr (JWT expires in 1hr)
 - Create post with image
@@ -45,6 +44,7 @@ Server
 - Comment
 
 #### TODO
+- RWD
 - Heruko Continuous Deployment
 - Posts & User management (admin)
 - Forgot password
